@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
+import sys
 
 
 class TooLongError(Exception):
@@ -9,9 +10,10 @@ class TooLongError(Exception):
 
 
 def generateThunbnail(
+    titleText=None,
+    outputName=None,
     size=(1200, 630),
     color=(232, 232, 232),
-    titleText="Pythonでアイキャッチ画像を自動生成する方法",
     font_size=80,
 ):
     img = Image.new("RGB", size, color)
@@ -27,11 +29,13 @@ def generateThunbnail(
     # サイドの余白を差し引いたときの画像サイズ
     container_width = W - horizontal_margin * 2
     container_height = H - vertical_margin * 2
+    # 一文字あたりのピクセル
     px_per_word = round(all_w / len(titleText))
+    # 1行あたり何文字がベストか計算
     width = round(container_width / px_per_word)
-    print(width)
+
     wrap_list = textwrap.wrap(titleText, width=width)
-    print(wrap_list)
+    # print(wrap_list)
     line_counter = 0
 
     for line in wrap_list:
@@ -50,8 +54,16 @@ def generateThunbnail(
             (coordinate_x, coordinate_y), line, fill=(0, 0, 0), font=font,
         )
         line_counter += 1
-    img.save("example.jpg", "JPEG", quality=100, optimize=True)
+    img.save(f"{outputName}.jpg", "JPEG", quality=75, optimize=True)
 
 
 if __name__ == "__main__":
-    generateThunbnail()
+
+    args = sys.argv
+
+    if len(args) <= 2:
+        print("タイトル名またはファイル名がありません")
+    else:
+        titleText = args[1]
+        outputName = args[2]
+        generateThunbnail(titleText, outputName)
