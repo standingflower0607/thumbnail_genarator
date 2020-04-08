@@ -54,9 +54,10 @@ def generateThunbnail(
             (coordinate_x, coordinate_y), line, fill=(0, 0, 0), font=font,
         )
         line_counter += 1
-    img.save(f"{outputName}.jpg", "JPEG", quality=75, optimize=True)
+    img.save(f"{save_directory}{outputName}.jpg", "JPEG", quality=75, optimize=True)
 
 
+save_directory = "docs/.vuepress/public/images/"
 if __name__ == "__main__":
 
     args = sys.argv
