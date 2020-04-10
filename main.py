@@ -57,7 +57,7 @@ def generateThunbnail(
     img.save(f"{save_directory}{outputName}.jpg", "JPEG", quality=75, optimize=True)
 
 
-save_directory = "docs/.vuepress/public/images/"
+save_directory = "docs/.vuepress/public/images/thumbnail/"
 if __name__ == "__main__":
 
     args = sys.argv
